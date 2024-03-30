@@ -60,6 +60,12 @@
             <version>5.4.0</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.10</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -75,8 +81,7 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>
-                                https://csee.pages.surrey.ac.uk/com1028/res/movies.db</url>
+                            <url>https://csee.pages.surrey.ac.uk/com1028/res/movies.db</url>
                             <outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
                             <outputFileName>movies.db</outputFileName>
                         </configuration>

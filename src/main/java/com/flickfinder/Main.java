@@ -4,7 +4,6 @@ import com.flickfinder.util.Database;
 
 /**
  * Entry point of the application.
- * 
  */
 
 public class Main {
@@ -20,10 +19,10 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        // This gives us a path to the database file, which is in the resources folder.
+        // This gives us a path to the database file, which is in the resources' folder.
         final String dbPath = "src/main/resources/movies.db";
 
-        /**
+        /*
          * This sets up the database connection and starts the server.
          * In this case, we are using a connection string to connect to the database.
          * For testing, we are using an in-memory database.

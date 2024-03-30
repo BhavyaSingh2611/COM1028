@@ -60,8 +60,8 @@ public class MovieController {
 	 * @param ctx the Javalin context
 	 */
 	public void getMovieById(Context ctx) {
-
 		int id = Integer.parseInt(ctx.pathParam("id"));
+
 		try {
 			Movie movie = movieDAO.getMovieById(id);
 			if (movie == null) {
@@ -69,12 +69,11 @@ public class MovieController {
 				ctx.result("Movie not found");
 				return;
 			}
-			ctx.json(movieDAO.getMovieById(id));
+			ctx.json(movie);
 		} catch (SQLException e) {
 			ctx.status(500);
 			ctx.result("Database error");
 			e.printStackTrace();
 		}
 	}
-
 }

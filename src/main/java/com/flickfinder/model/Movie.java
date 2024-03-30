@@ -28,7 +28,7 @@ public class Movie {
 	 * @return the id of the movie
 	 */
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class Movie {
 	 * @return the title of the movie
 	 */
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class Movie {
 	 * @return the release year of the movie
 	 */
 	public int getYear() {
-		return year;
+		return this.year;
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class Movie {
 	 */
 	@Override
 	public String toString() {
-		return "Movie [id=" + id + ", title=" + title + ", year=" + year + "]";
+		return String.format("Movie [id=%d, title=%s, year=%d]", id, title, year);
 	}
 
 }

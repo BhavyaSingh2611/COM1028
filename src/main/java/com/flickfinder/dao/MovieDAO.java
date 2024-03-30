@@ -30,8 +30,7 @@ public class MovieDAO {
 	 * 
 	 */
 	public MovieDAO() {
-		Database database = Database.getInstance();
-		connection = database.getConnection();
+		this.connection = Database.getInstance().getConnection();
 	}
 
 	/**
@@ -42,13 +41,9 @@ public class MovieDAO {
 	 */
 
 	public List<Movie> getAllMovies() throws SQLException {
-		List<Movie> movies = new ArrayList<>();
+		List<Movie> movies = new ArrayList<>(50);
 
-		Statement statement = connection.createStatement();
-		
-		// I've set the limit to 10 for development purposes - you should do the same.
-		ResultSet rs = statement.executeQuery("select * from movies LIMIT 50");
-		
+		ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM movies LIMIT 50");
 		while (rs.next()) {
 			movies.add(new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("year")));
 		}
@@ -64,21 +59,15 @@ public class MovieDAO {
 	 * @throws SQLException if a database error occurs
 	 */
 	public Movie getMovieById(int id) throws SQLException {
-
-		String statement = "select * from movies where id = ?";
-		PreparedStatement ps = connection.prepareStatement(statement);
+		PreparedStatement ps = connection.prepareStatement("SELECT * FROM movies WHERE id = ?");
 		ps.setInt(1, id);
+
 		ResultSet rs = ps.executeQuery();
 
 		if (rs.next()) {
-
 			return new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("year"));
 		}
 		
-		// return null if the id does not return a movie.
-
 		return null;
-
 	}
-
 }

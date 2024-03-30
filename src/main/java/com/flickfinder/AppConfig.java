@@ -11,7 +11,6 @@ import io.javalin.http.staticfiles.Location;
  * It sets up the routes and the static files location.
  * As you implement the remaining functionality, you will need to update this
  * class.
- * 
  */
 
 public class AppConfig {
@@ -39,7 +38,7 @@ public class AppConfig {
 		// PersonDAO personDao = new PersonDAO();
 		// PersonController personController = new PersonController(personDao);
 
-		/**
+		/*
 		 * Below are the routes for the application.
 		 * You will need uncomment these as you progress through the assessment.
 		 * Do not:

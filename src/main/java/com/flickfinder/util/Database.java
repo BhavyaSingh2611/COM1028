@@ -68,11 +68,8 @@ public class Database {
 	 * @return
 	 */
 	public static Database getInstance(Connection conn) {
-
 		instance = new Database(conn);
-
 		return instance;
-
 	}
 
 	/**
