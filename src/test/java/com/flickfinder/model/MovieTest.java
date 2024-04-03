@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test for the Movie Model.
- * 
- * 
  */
 public class MovieTest {
 
@@ -37,7 +35,7 @@ public class MovieTest {
 	}
 
 	/**
-	 * Test the movie object is created with the correct values.
+	 * Test the movie object is updated with the correct value setters.
 	 */
 	@Test
 	public void testMovieSetters() {

@@ -1,11 +1,10 @@
 package com.flickfinder.dao;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-
 import java.sql.SQLException;
 import java.util.List;
 
+import com.flickfinder.model.MovieRating;
+import com.flickfinder.model.Person;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import com.flickfinder.model.Movie;
 import com.flickfinder.util.Database;
 import com.flickfinder.util.Seeder;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test for the Movie Data Access Object.
@@ -46,7 +47,6 @@ class MovieDAOTest {
 		seeder = new Seeder(url);
 		Database.getInstance(seeder.getConnection());
 		movieDAO = new MovieDAO();
-
 	}
 
 	/**
@@ -60,6 +60,23 @@ class MovieDAOTest {
 		try {
 			List<Movie> movies = movieDAO.getAllMovies();
 			assertEquals(5, movies.size());
+		} catch (SQLException e) {
+			fail("SQLException thrown");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Tests the getAllMovies method with a limit.
+	 * We expect to get a list of all movies in the database.
+	 * We are calling with limit 3, so we expect to get 3 movies back.
+	 * At this point, we avoid checking the actual content of the list.
+	 */
+	@Test
+	void testGetAllMoviesWithLimit() {
+		try {
+			List<Movie> movies = movieDAO.getAllMovies(3);
+			assertEquals(3, movies.size());
 		} catch (SQLException e) {
 			fail("SQLException thrown");
 			e.printStackTrace();
@@ -87,21 +104,53 @@ class MovieDAOTest {
 	 */
 	@Test
 	void testGetMovieByIdInvalidId() {
-		// write an assertThrows for a SQLException
-
 		try {
 			Movie movie = movieDAO.getMovieById(1000);
-			assertEquals(null, movie);
+            assertNull(movie);
 		} catch (SQLException e) {
 			fail("SQLException thrown");
 			e.printStackTrace();
 		}
-
+	}
+	/**
+	 * Tests the getRatingsByYear method.
+	 * We expect to get a list of all movies in the database with the specified year.
+	 * only 1 movie was released in 1972 present in the database, so we expect to get 1 movie back.
+	 * At this point, we avoid checking the actual content of the list.
+	 */
+	@Test
+	void testGetRatingsByYear() {
+		try {
+			List<MovieRating> movies = movieDAO.getRatingsByYear(1972);
+			assertEquals(1, movies.size());
+		} catch (SQLException e) {
+			fail("SQLException thrown");
+			e.printStackTrace();
+		}
 	}
 
+	/**
+	 * Tests the getPeopleById method.
+	 * We expect to get a list of all people in the database with the specified id.
+	 * movie with id 1 has 2 people starring, so we expect to get 2 people back.
+	 * At this point, we avoid checking the actual content of the list.
+	 */
+	@Test
+	void testGetPeopleById() {
+		try {
+			List<Person> people = movieDAO.getPeopleById(1);
+			assertEquals(2, people.size());
+		} catch (SQLException e) {
+			fail("SQLException thrown");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Closes the database connection.
+	 */
 	@AfterEach
 	void tearDown() {
 		seeder.closeConnection();
 	}
-
 }

@@ -178,5 +178,4 @@ class PersonControllerTest {
         personController.getMoviesStarringPerson(ctx);
         verify(ctx).status(400);
     }
-
 }

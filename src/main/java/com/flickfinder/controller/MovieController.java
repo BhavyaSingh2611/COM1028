@@ -12,6 +12,7 @@ import com.flickfinder.util.Defaults;
 import io.javalin.http.Context;
 import io.javalin.util.JavalinLogger;
 
+import static com.flickfinder.util.Utils.abs;
 import static com.flickfinder.util.Utils.coalesce;
 
 /**
@@ -53,7 +54,7 @@ public class MovieController {
 	 */
 	public void getAllMovies(Context ctx) {
 		try {
-			int limit = Integer.parseInt(coalesce(ctx.queryParam("limit"), Integer.toString(Defaults.LIMIT)));
+			int limit = Integer.parseInt(abs(coalesce(ctx.queryParam("limit"), Integer.toString(Defaults.LIMIT))));
 			ctx.json(movieDAO.getAllMovies(limit));
 		} catch (SQLException e) {
 			ctx.status(500);
@@ -101,8 +102,8 @@ public class MovieController {
 	public void getRatingsByYear(Context ctx) {
 		try {
 			int year = Integer.parseInt(ctx.pathParam("year"));
-			int limit = Integer.parseInt(coalesce(ctx.queryParam("limit"), Integer.toString(Defaults.LIMIT)));
-			int votes = Integer.parseInt(coalesce(ctx.queryParam("votes"), Integer.toString(Defaults.VOTES)));
+			int limit = Integer.parseInt(abs(coalesce(ctx.queryParam("limit"), Integer.toString(Defaults.LIMIT))));
+			int votes = Integer.parseInt(abs(coalesce(ctx.queryParam("votes"), Integer.toString(Defaults.VOTES))));
 
 			List<MovieRating> ratings = movieDAO.getRatingsByYear(limit, votes, year);
 			if (ratings.isEmpty()) {
