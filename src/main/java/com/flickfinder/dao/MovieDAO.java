@@ -11,6 +11,7 @@ import com.flickfinder.model.Movie;
 import com.flickfinder.model.MovieRating;
 import com.flickfinder.model.Person;
 import com.flickfinder.util.Database;
+import com.flickfinder.util.Defaults;
 
 /**
  * The Data Access Object for the Movie table.
@@ -40,7 +41,7 @@ public class MovieDAO {
 	 */
 
 	public List<Movie> getAllMovies() throws SQLException {
-		return this.getAllMovies(50);
+		return this.getAllMovies(Defaults.LIMIT);
 	}
 
 	/**
@@ -119,18 +120,18 @@ public class MovieDAO {
 	 * @throws SQLException if a database error occurs
 	 */
 	public List<MovieRating> getRatingsByYear(int votes, int year) throws SQLException {
-		return this.getRatingsByYear(50, votes, year);
+		return this.getRatingsByYear(Defaults.LIMIT, votes, year);
 	}
 
 	/**
-	 * Returns a list of all movies released in year with minimum 1000 votes in the database.
+	 * Returns a list of all movies released in year with minimum {@value com.flickfinder.util.Defaults#VOTES} votes in the database.
 	 *
 	 * @param year the year of the movies to return
 	 * @return a list of all movies in the database
 	 * @throws SQLException if a database error occurs
 	 */
 	public List<MovieRating> getRatingsByYear(int year) throws SQLException {
-		return this.getRatingsByYear(50, 1000, year);
+		return this.getRatingsByYear(Defaults.LIMIT, Defaults.VOTES, year);
 	}
 
 	/**

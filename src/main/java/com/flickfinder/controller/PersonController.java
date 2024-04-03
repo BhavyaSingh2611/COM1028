@@ -1,11 +1,14 @@
 package com.flickfinder.controller;
 
 import com.flickfinder.dao.PersonDAO;
+import com.flickfinder.model.Movie;
 import com.flickfinder.model.Person;
+import com.flickfinder.util.Defaults;
 import io.javalin.http.Context;
 import io.javalin.util.JavalinLogger;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import static com.flickfinder.util.Utils.coalesce;
 
@@ -46,7 +49,7 @@ public class PersonController {
      */
     public void getAllPeople(Context ctx) {
         try {
-            int limit = Integer.parseInt(coalesce(ctx.queryParam("limit"), "50"));
+            int limit = Integer.parseInt(coalesce(ctx.queryParam("limit"), Integer.toString(Defaults.LIMIT)));
             ctx.json(personDAO.getAllPeople(limit));
         } catch (SQLException e) {
             ctx.status(500);
@@ -96,7 +99,13 @@ public class PersonController {
         try {
             int id = Integer.parseInt(ctx.pathParam("id"));
 
-            ctx.json(personDAO.getMovieById(id));
+            List<Movie> movies = personDAO.getMovieById(id);
+            if (movies.isEmpty()) {
+                ctx.status(404);
+                ctx.result("Movies not found");
+                return;
+            }
+            ctx.json(movies);
         } catch (SQLException e) {
             ctx.status(500);
             ctx.result("Database error");

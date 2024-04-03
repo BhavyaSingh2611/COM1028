@@ -1,10 +1,14 @@
 package com.flickfinder.controller;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import com.flickfinder.dao.MovieDAO;
 import com.flickfinder.model.Movie;
 
+import com.flickfinder.model.MovieRating;
+import com.flickfinder.model.Person;
+import com.flickfinder.util.Defaults;
 import io.javalin.http.Context;
 import io.javalin.util.JavalinLogger;
 
@@ -49,7 +53,7 @@ public class MovieController {
 	 */
 	public void getAllMovies(Context ctx) {
 		try {
-			int limit = Integer.parseInt(coalesce(ctx.queryParam("limit"), "50"));
+			int limit = Integer.parseInt(coalesce(ctx.queryParam("limit"), Integer.toString(Defaults.LIMIT)));
 			ctx.json(movieDAO.getAllMovies(limit));
 		} catch (SQLException e) {
 			ctx.status(500);
@@ -97,10 +101,17 @@ public class MovieController {
 	public void getRatingsByYear(Context ctx) {
 		try {
 			int year = Integer.parseInt(ctx.pathParam("year"));
-			int limit = Integer.parseInt(coalesce(ctx.queryParam("limit"), "50"));
-			int votes = Integer.parseInt(coalesce(ctx.queryParam("votes"), "1000"));
+			int limit = Integer.parseInt(coalesce(ctx.queryParam("limit"), Integer.toString(Defaults.LIMIT)));
+			int votes = Integer.parseInt(coalesce(ctx.queryParam("votes"), Integer.toString(Defaults.VOTES)));
 
-			ctx.json(movieDAO.getRatingsByYear(limit, votes, year));
+			List<MovieRating> ratings = movieDAO.getRatingsByYear(limit, votes, year);
+			if (ratings.isEmpty()) {
+				ctx.status(404);
+				ctx.result("No movies found");
+				return;
+			}
+
+			ctx.json(ratings);
 		} catch (SQLException e) {
 			ctx.status(500);
 			ctx.result("Database error");
@@ -121,7 +132,14 @@ public class MovieController {
 		try {
 			int id = Integer.parseInt(ctx.pathParam("id"));
 
-			ctx.json(movieDAO.getPeopleById(id));
+			List<Person> people = movieDAO.getPeopleById(id);
+			if (people.isEmpty()) {
+				ctx.status(404);
+				ctx.result("Movie not found");
+				return;
+			}
+
+			ctx.json(people);
 		} catch (SQLException e) {
 			ctx.status(500);
 			ctx.result("Database error");

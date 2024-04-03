@@ -3,6 +3,7 @@ package com.flickfinder.dao;
 import com.flickfinder.model.Movie;
 import com.flickfinder.model.Person;
 import com.flickfinder.util.Database;
+import com.flickfinder.util.Defaults;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,7 +32,7 @@ public class PersonDAO {
      * @throws SQLException if a database error occurs
      */
     public List<Person> getAllPeople() throws SQLException {
-        return this.getAllPeople(50);
+        return this.getAllPeople(Defaults.LIMIT);
     }
 
     /**
