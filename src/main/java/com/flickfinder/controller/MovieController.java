@@ -6,6 +6,9 @@ import com.flickfinder.dao.MovieDAO;
 import com.flickfinder.model.Movie;
 
 import io.javalin.http.Context;
+import io.javalin.util.JavalinLogger;
+
+import static com.flickfinder.util.Utils.coalesce;
 
 /**
  * The controller for the movie endpoints.
@@ -46,11 +49,16 @@ public class MovieController {
 	 */
 	public void getAllMovies(Context ctx) {
 		try {
-			ctx.json(movieDAO.getAllMovies());
+			int limit = Integer.parseInt(coalesce(ctx.queryParam("limit"), "50"));
+			ctx.json(movieDAO.getAllMovies(limit));
 		} catch (SQLException e) {
 			ctx.status(500);
 			ctx.result("Database error");
-			e.printStackTrace();
+			JavalinLogger.error("Database error", e);
+		} catch (NumberFormatException e) {
+			ctx.status(400);
+			ctx.result("Invalid limit parameter");
+			JavalinLogger.error("Non numeric limit parameter", e);
 		}
 	}
 
@@ -60,9 +68,9 @@ public class MovieController {
 	 * @param ctx the Javalin context
 	 */
 	public void getMovieById(Context ctx) {
-		int id = Integer.parseInt(ctx.pathParam("id"));
-
 		try {
+			int id = Integer.parseInt(ctx.pathParam("id"));
+
 			Movie movie = movieDAO.getMovieById(id);
 			if (movie == null) {
 				ctx.status(404);
@@ -73,7 +81,55 @@ public class MovieController {
 		} catch (SQLException e) {
 			ctx.status(500);
 			ctx.result("Database error");
-			e.printStackTrace();
+			JavalinLogger.error("Database error", e);
+		} catch (NumberFormatException e) {
+			ctx.status(400);
+			ctx.result("Invalid id parameter");
+			JavalinLogger.error("Non numeric id parameter", e);
+		}
+	}
+
+	/**
+	 * Returns a list of movies released in the specified year.
+	 *
+	 * @param ctx the Javalin context
+	 */
+	public void getRatingsByYear(Context ctx) {
+		try {
+			int year = Integer.parseInt(ctx.pathParam("year"));
+			int limit = Integer.parseInt(coalesce(ctx.queryParam("limit"), "50"));
+			int votes = Integer.parseInt(coalesce(ctx.queryParam("votes"), "1000"));
+
+			ctx.json(movieDAO.getRatingsByYear(limit, votes, year));
+		} catch (SQLException e) {
+			ctx.status(500);
+			ctx.result("Database error");
+			JavalinLogger.error("Database error", e);
+		} catch (NumberFormatException e) {
+			ctx.status(400);
+			ctx.result("Invalid parameter(s)");
+			JavalinLogger.error("Non numeric parameter(s)", e);
+		}
+	}
+
+	/**
+	 * Returns a list of people who worked on the movie with the specified id.
+	 *
+	 * @param ctx the Javalin context
+	 */
+	public void getPeopleByMovieId(Context ctx) {
+		try {
+			int id = Integer.parseInt(ctx.pathParam("id"));
+
+			ctx.json(movieDAO.getPeopleById(id));
+		} catch (SQLException e) {
+			ctx.status(500);
+			ctx.result("Database error");
+			JavalinLogger.error("Database error", e);
+		} catch (NumberFormatException e) {
+			ctx.status(400);
+			ctx.result("Invalid id parameter");
+			JavalinLogger.error("Non numeric id parameter", e);
 		}
 	}
 }

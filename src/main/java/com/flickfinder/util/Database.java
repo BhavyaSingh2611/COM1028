@@ -36,7 +36,7 @@ public class Database {
 	 * This allows use to pass in an existing database connection.
 	 * This is useful for testing.
 	 * 
-	 * @param connection
+	 * @param connection connection to the database
 	 */
 
 	private Database(Connection connection) {
@@ -48,8 +48,8 @@ public class Database {
 	 * We pass in the path to the database.
 	 * This is the path to the database file.
 	 * 
-	 * @param path
-	 * @return
+	 * @param path path to the database file
+	 * @return instance of the database
 	 */
 	public static Database getInstance(String path) {
 		if (instance == null) {
@@ -59,13 +59,13 @@ public class Database {
 	}
 
 	/**
-	 * Returns the instance of the database. However, this methods allows us 
+	 * Returns the instance of the database. However, this method allows us
 	 * to pass in the connection to an instance of an in-memory database.
 	 * We use this for testing. Notice how we are using the same method name, overloading the above 
 	 * method.
 	 * 
-	 * @param conn
-	 * @return
+	 * @param conn connection to in-memory database
+	 * @return instance of the database
 	 */
 	public static Database getInstance(Connection conn) {
 		instance = new Database(conn);
@@ -79,12 +79,11 @@ public class Database {
 	 * can just return the instance. There is no need to pass in the path or connection to the database.
 	 * 
 	 * 
-	 * @return
+	 * @return instance of the database
 	 */
 
 	public static Database getInstance() {
-
-		/**
+		/*
 		 * If the instance is null, we throw an IllegalStateException.
 		 * This is because we need to set the instance of the database before we can use it.
 		 * As we are using a singleton pattern, we only have to do this once. 
@@ -98,7 +97,7 @@ public class Database {
 	/**
 	 * Returns the connection to the database.
 	 * 
-	 * @return
+	 * @return connection to the database
 	 */
 
 	public Connection getConnection() {
