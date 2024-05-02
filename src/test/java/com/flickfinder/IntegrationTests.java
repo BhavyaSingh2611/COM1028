@@ -58,27 +58,64 @@ class IntegrationTests {
 	 */
 
 	@Test
-	void retrieves_a_list_of_all_movies() {
-		given().when().get(baseURL + "/movies").then().assertThat().statusCode(200). // Assuming a successful
-												// response returns HTTP
-												// 200
-				body("id", hasItems(1, 2, 3, 4, 5))
+	void retrievesAListOfAllMovies() {
+		given().when().get(baseURL + "/movies").then().assertThat().statusCode(200)
+				.body("id", hasItems(1, 2, 3, 4, 5))
 				.body("title", hasItems("The Shawshank Redemption", "The Godfather",
 						"The Godfather: Part II", "The Dark Knight", "12 Angry Men"))
 				.body("year", hasItems(1994, 1972, 1974, 2008, 1957));
 	}
 
 	@Test
-	void retrieves_a_single_movie_by_id() {
+	void retrievesASingleMovieById() {
 
-		given().when().get(baseURL + "/movies/1").then().assertThat().statusCode(200). // Assuming a successful
-												// response returns HTTP
-												// 200
-				body("id", equalTo(1))
+		given().when().get(baseURL + "/movies/1").then().assertThat().statusCode(200)
+				.body("id", equalTo(1))
 				.body("title", equalTo("The Shawshank Redemption"))
 				.body("year", equalTo(1994));
 	}
 
+	@Test
+	void retrievesPeopleByMovieId() {
+		given().when().get(baseURL + "/movies/1/stars").then().assertThat().statusCode(200)
+				.body("id", hasItems(1, 2))
+				.body("name", hasItems("Tim Robbins", "Morgan Freeman"))
+				.body("birth", hasItems(1958, 1937));
+	}
+
+	@Test
+	void retrievesRatingsByYear() {
+		given().when().get(baseURL + "/movies/ratings/1994").then().assertThat().statusCode(200)
+				.body("id", hasItems(1))
+				.body("title", hasItems("The Shawshank Redemption"))
+				.body("year", hasItems(1994))
+				.body("rating", hasItems(9.3f));
+	}
+
+	@Test
+	void retrievesAllPeople() {
+		given().when().get(baseURL + "/people").then().assertThat().statusCode(200)
+				.body("id", hasItems(1, 2, 3, 4, 5))
+				.body("name", hasItems("Tim Robbins", "Morgan Freeman", "Christopher Nolan", "Al Pacino", "Henry Fonda"))
+				.body("birth", hasItems(1958, 1937, 1970, 1940, 1905));
+	}
+
+	@Test
+	void retrievesPersonById() {
+		given().when().get(baseURL + "/people/1").then().assertThat().statusCode(200)
+				.body("id", equalTo(1))
+				.body("name", equalTo("Tim Robbins"))
+				.body("birth", equalTo(1958));
+	}
+
+	@Test
+	void retrievesMoviesStarringPerson() {
+		given().when().get(baseURL + "/people/4/movies").then().assertThat().statusCode(200)
+				.body("id", hasItems(2, 3))
+				.body("title", hasItems("The Godfather",
+						"The Godfather: Part II"))
+				.body("year", hasItems(1972, 1974));
+	}
 	/**
 	 * Tears down the application after each test.
 	 * We want to make sure that each test runs in isolation.
