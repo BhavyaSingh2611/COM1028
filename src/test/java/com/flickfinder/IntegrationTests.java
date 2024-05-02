@@ -66,6 +66,9 @@ class IntegrationTests {
 				.body("year", hasItems(1994, 1972, 1974, 2008, 1957));
 	}
 
+	/**
+	 * Test that the application retrieves a single movie by its id.
+	 */
 	@Test
 	void retrievesASingleMovieById() {
 
@@ -75,6 +78,9 @@ class IntegrationTests {
 				.body("year", equalTo(1994));
 	}
 
+	/**
+	 * Test that the application retrieves people by movie id.
+	 */
 	@Test
 	void retrievesPeopleByMovieId() {
 		given().when().get(baseURL + "/movies/1/stars").then().assertThat().statusCode(200)
@@ -83,6 +89,9 @@ class IntegrationTests {
 				.body("birth", hasItems(1958, 1937));
 	}
 
+	/**
+	 * Test that the application retrieves ratings by year.
+	 */
 	@Test
 	void retrievesRatingsByYear() {
 		given().when().get(baseURL + "/movies/ratings/1994").then().assertThat().statusCode(200)
@@ -92,6 +101,9 @@ class IntegrationTests {
 				.body("rating", hasItems(9.3f));
 	}
 
+	/**
+	 * Test that the application retrieves all people.
+	 */
 	@Test
 	void retrievesAllPeople() {
 		given().when().get(baseURL + "/people").then().assertThat().statusCode(200)
@@ -100,6 +112,9 @@ class IntegrationTests {
 				.body("birth", hasItems(1958, 1937, 1970, 1940, 1905));
 	}
 
+	/**
+	 * Test that the application retrieves a person by id.
+	 */
 	@Test
 	void retrievesPersonById() {
 		given().when().get(baseURL + "/people/1").then().assertThat().statusCode(200)
@@ -108,6 +123,9 @@ class IntegrationTests {
 				.body("birth", equalTo(1958));
 	}
 
+	/**
+	 * Test that the application retrieves movies starring a person.
+	 */
 	@Test
 	void retrievesMoviesStarringPerson() {
 		given().when().get(baseURL + "/people/4/movies").then().assertThat().statusCode(200)
