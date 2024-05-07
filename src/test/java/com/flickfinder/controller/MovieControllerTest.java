@@ -70,8 +70,6 @@ class MovieControllerTest {
     /**
      * Test that the controller returns a 400 status code when an invalid limit is
      * passed.
-     *
-     * @throws SQLException
      */
     @Test
     void testThrows400ExceptionWhenInvalidLimit() {
@@ -129,8 +127,6 @@ class MovieControllerTest {
     /**
      * Test that the controller returns a 400 status code when an invalid id is
      * passed.
-     *
-     * @throws SQLException
      */
     @Test
     void testThrows400ExceptionWhenInvalidId() {

@@ -29,7 +29,7 @@
             <version>6.0.0</version>
         </dependency>
 
-        <!-- this is a dependancy for javalin -->
+        <!-- this is a dependency for javalin -->
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
