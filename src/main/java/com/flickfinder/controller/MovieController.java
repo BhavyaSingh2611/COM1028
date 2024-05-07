@@ -12,17 +12,16 @@ import com.flickfinder.util.Defaults;
 import io.javalin.http.Context;
 import io.javalin.util.JavalinLogger;
 
-import static com.flickfinder.util.Utils.abs;
 import static com.flickfinder.util.Utils.coalesce;
 
 /**
  * The controller for the movie endpoints.
- * 
+ *
  * The controller acts as an intermediary between the HTTP routes and the DAO.
- * 
+ *
  * As you can see each method in the controller class is responsible for
  * handling a specific HTTP request.
- * 
+ *
  * Methods a Javalin Context object as a parameter and uses it to send a
  * response back to the client.
  * We also handle business logic in the controller, such as validating input and
@@ -37,7 +36,6 @@ public class MovieController {
 	/**
 	 * The movie data access object.
 	 */
-
 	private final MovieDAO movieDAO;
 
 	/**
@@ -49,12 +47,17 @@ public class MovieController {
 
 	/**
 	 * Returns a list of all movies in the database.
-	 * 
+	 *
 	 * @param ctx the Javalin context
 	 */
 	public void getAllMovies(Context ctx) {
 		try {
-			int limit = Integer.parseInt(abs(coalesce(ctx.queryParam("limit"), Integer.toString(Defaults.LIMIT))));
+			int limit = Integer.parseInt(coalesce(ctx.queryParam("limit"), Integer.toString(Defaults.LIMIT)));
+			if (limit <= 0) {
+				ctx.status(400);
+				ctx.result("Invalid limit parameter");
+				return;
+			}
 			ctx.json(movieDAO.getAllMovies(limit));
 		} catch (SQLException e) {
 			ctx.status(500);
@@ -69,7 +72,7 @@ public class MovieController {
 
 	/**
 	 * Returns the movie with the specified id.
-	 * 
+	 *
 	 * @param ctx the Javalin context
 	 */
 	public void getMovieById(Context ctx) {
@@ -102,8 +105,18 @@ public class MovieController {
 	public void getRatingsByYear(Context ctx) {
 		try {
 			int year = Integer.parseInt(ctx.pathParam("year"));
-			int limit = Integer.parseInt(abs(coalesce(ctx.queryParam("limit"), Integer.toString(Defaults.LIMIT))));
-			int votes = Integer.parseInt(abs(coalesce(ctx.queryParam("votes"), Integer.toString(Defaults.VOTES))));
+			int limit = Integer.parseInt(coalesce(ctx.queryParam("limit"), Integer.toString(Defaults.LIMIT)));
+			if (limit <= 0) {
+				ctx.status(400);
+				ctx.result("Invalid limit parameter");
+				return;
+			}
+			int votes = Integer.parseInt(coalesce(ctx.queryParam("votes"), Integer.toString(Defaults.VOTES)));
+			if (votes < 0) {
+				ctx.status(400);
+				ctx.result("Invalid votes parameter");
+				return;
+			}
 
 			List<MovieRating> ratings = movieDAO.getRatingsByYear(limit, votes, year);
 			if (ratings.isEmpty()) {

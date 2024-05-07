@@ -39,7 +39,6 @@ public class MovieDAO {
 	 * @return a list of all movies in the database
 	 * @throws SQLException if a database error occurs
 	 */
-
 	public List<Movie> getAllMovies() throws SQLException {
 		return this.getAllMovies(Defaults.LIMIT);
 	}
@@ -96,7 +95,6 @@ public class MovieDAO {
 	 * @return a list of all movies in the database
 	 * @throws SQLException if a database error occurs
 	 */
-
 	public List<MovieRating> getRatingsByYear(int limit, int votes, int year) throws SQLException {
 		List<MovieRating> movies = new ArrayList<>(limit);
 		PreparedStatement ps = connection.prepareStatement("SELECT * FROM movies, ratings WHERE movies.year = ? AND movies.id = ratings.movie_id AND ratings.votes > ? ORDER BY ratings.rating DESC LIMIT ?");

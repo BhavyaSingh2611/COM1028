@@ -14,7 +14,6 @@ import io.javalin.http.staticfiles.Location;
  * As you implement the remaining functionality, you will need to update this
  * class.
  */
-
 public class AppConfig {
 
 	/**

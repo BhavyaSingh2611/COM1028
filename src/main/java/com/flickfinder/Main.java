@@ -5,8 +5,8 @@ import com.flickfinder.util.Database;
 /**
  * Entry point of the application.
  */
-
 public class Main {
+
     /**
      * The port that the server should run on.
      */

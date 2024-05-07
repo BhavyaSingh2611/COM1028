@@ -10,7 +10,6 @@ import io.javalin.util.JavalinLogger;
 import java.sql.SQLException;
 import java.util.List;
 
-import static com.flickfinder.util.Utils.abs;
 import static com.flickfinder.util.Utils.coalesce;
 
 /**
@@ -50,7 +49,12 @@ public class PersonController {
      */
     public void getAllPeople(Context ctx) {
         try {
-            int limit = Integer.parseInt(abs(coalesce(ctx.queryParam("limit"), Integer.toString(Defaults.LIMIT))));
+            int limit = Integer.parseInt(coalesce(ctx.queryParam("limit"), Integer.toString(Defaults.LIMIT)));
+            if (limit <= 0) {
+                ctx.status(400);
+                ctx.result("Invalid limit parameter");
+                return;
+            }
             ctx.json(personDAO.getAllPeople(limit));
         } catch (SQLException e) {
             ctx.status(500);
