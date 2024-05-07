@@ -10,11 +10,11 @@ public class MovieRating extends Movie {
     /**
      * Constructs a Movie object with the specified id, title, and year.
      *
-     * @param id    the unique identifier of the movie
-     * @param title the title of the movie
-     * @param year  the release year of the movie
+     * @param id     the unique identifier of the movie
+     * @param title  the title of the movie
+     * @param year   the release year of the movie
      * @param rating the rating of the movie
-     * @param votes the votes of the movie
+     * @param votes  the votes of the movie
      */
     public MovieRating(int id, String title, int year, double rating, int votes) {
         super(id, title, year);
@@ -66,7 +66,6 @@ public class MovieRating extends Movie {
      */
     @Override
     public String toString() {
-        return String.format("MovieRating [id=%d, title=%s, year=%d, rating=%.2f, votes=%d]",
-                super.getId(), super.getTitle(), super.getYear(), this.rating, this.votes);
+        return String.format("MovieRating [id=%d, title=%s, year=%d, rating=%.2f, votes=%d]", super.getId(), super.getTitle(), super.getYear(), this.rating, this.votes);
     }
 }

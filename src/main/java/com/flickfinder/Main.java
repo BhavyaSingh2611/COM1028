@@ -14,7 +14,7 @@ public class Main {
 
     /**
      * Set up a Javalin server and the database.
-     * 
+     *
      * @param args The command line arguments.
      */
     public static void main(String[] args) {

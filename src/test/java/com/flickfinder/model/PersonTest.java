@@ -17,7 +17,6 @@ class PersonTest {
 
     /**
      * Set up the person object before each test.
-     *
      */
     @BeforeEach
     public void setUp() {

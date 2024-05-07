@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test for the Person Data Access Object.
@@ -19,14 +18,13 @@ import static org.junit.jupiter.api.Assertions.fail;
 class PersonDAOTest {
 
     /**
-     * The person data access object.
-     */
-    private PersonDAO personDAO;
-
-    /**
      * Seeder
      */
     Seeder seeder;
+    /**
+     * The person data access object.
+     */
+    private PersonDAO personDAO;
 
     /**
      * Sets up the database connection and creates the tables.
@@ -93,14 +91,42 @@ class PersonDAOTest {
     }
 
     /**
+     * Tests the getPersonById method with an invalid id. Null should be returned.
+     */
+    @Test
+    void testGetPersonByIdWithInvalidId() {
+        try {
+            Person person = personDAO.getPersonById(1000);
+            assertNull(person);
+        } catch (Exception e) {
+            fail("SQLException was thrown.");
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Tests the getMovieById method.
      * We expect to get a list of all movies starring the person with the specified id.
      */
     @Test
     void testGetMoviesStarringPerson() {
         try {
-            List<Movie> movies = personDAO.getMovieById(4);
+            List<Movie> movies = personDAO.getMovieByPersonId(4);
             assertEquals(2, movies.size());
+        } catch (Exception e) {
+            fail("SQLException was thrown.");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Tests the getMovieById method with an invalid id. Null should be returned.
+     */
+    @Test
+    void testGetMoviesStarringPersonWithInvalidId() {
+        try {
+            List<Movie> movies = personDAO.getMovieByPersonId(1000);
+            assertNull(movies);
         } catch (Exception e) {
             fail("SQLException was thrown.");
             e.printStackTrace();

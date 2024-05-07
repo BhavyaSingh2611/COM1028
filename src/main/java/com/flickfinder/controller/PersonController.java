@@ -14,25 +14,25 @@ import static com.flickfinder.util.Utils.coalesce;
 
 /**
  * The controller for the people endpoints.
- *
+ * <p>
  * The controller acts as an intermediary between the HTTP routes and the DAO.
- *
+ * <p>
  * As you can see each method in the controller class is responsible for
  * handling a specific HTTP request.
- *
+ * <p>
  * Methods a Javalin Context object as a parameter and uses it to send a
  * response back to the client.
  * We also handle business logic in the controller, such as validating input and
  * handling errors.
- *
+ * <p>
  * Notice that the methods don't return anything. Instead, they use the Javalin
  * Context object to send a response back to the client.
  */
 public class PersonController {
 
     /**
-    * The person data access object.
-    */
+     * The person data access object.
+     */
     private final PersonDAO personDAO;
 
     /**
@@ -104,7 +104,7 @@ public class PersonController {
         try {
             int id = Integer.parseInt(ctx.pathParam("id"));
 
-            List<Movie> movies = personDAO.getMovieById(id);
+            List<Movie> movies = personDAO.getMovieByPersonId(id);
             if (movies.isEmpty()) {
                 ctx.status(404);
                 ctx.result("Movies not found");

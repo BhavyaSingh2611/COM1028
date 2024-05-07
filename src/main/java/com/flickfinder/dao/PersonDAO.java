@@ -84,7 +84,7 @@ public class PersonDAO {
      * @return a list of all movies starring the person with the specified id
      * @throws SQLException if a database error occurs
      */
-    public List<Movie> getMovieById(int id) throws SQLException {
+    public List<Movie> getMovieByPersonId(int id) throws SQLException {
         List<Movie> movies = new ArrayList<>(20);
         PreparedStatement ps = connection.prepareStatement("SELECT * FROM movies, stars WHERE stars.person_id = ? AND movies.id = stars.movie_id");
         ps.setInt(1, id);

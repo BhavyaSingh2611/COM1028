@@ -1,9 +1,9 @@
 package com.flickfinder.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test for the MovieRating Model.
@@ -17,7 +17,6 @@ public class MovieRatingTest {
 
     /**
      * Set up the MovieRating object before each test.
-     *
      */
     @BeforeEach
     public void setUp() {
