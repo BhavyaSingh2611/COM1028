@@ -66,6 +66,7 @@ public class MovieRating extends Movie {
      */
     @Override
     public String toString() {
-        return String.format("MovieRating [id=%d, title=%s, year=%d, rating=%.2f, votes=%d]", super.getId(), super.getTitle(), super.getYear(), this.rating, this.votes);
+        return String.format("MovieRating [id=%d, title=%s, year=%d, rating=%.2f, votes=%d]",
+                super.getId(), super.getTitle(), super.getYear(), this.rating, this.votes);
     }
 }

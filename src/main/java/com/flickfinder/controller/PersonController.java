@@ -104,7 +104,7 @@ public class PersonController {
         try {
             int id = Integer.parseInt(ctx.pathParam("id"));
 
-            List<Movie> movies = personDAO.getMovieByPersonId(id);
+            List<Movie> movies = personDAO.getMoviesByPersonId(id);
             if (movies.isEmpty()) {
                 ctx.status(404);
                 ctx.result("Movies not found");

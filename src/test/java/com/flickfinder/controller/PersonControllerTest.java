@@ -135,7 +135,7 @@ class PersonControllerTest {
         when(ctx.pathParam("id")).thenReturn("1");
         personController.getMoviesStarringPerson(ctx);
         try {
-            verify(personDAO).getMovieByPersonId(1);
+            verify(personDAO).getMoviesByPersonId(1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -150,7 +150,7 @@ class PersonControllerTest {
     @Test
     void testThrows500ExceptionWhenGetMoviesDatabaseError() throws SQLException {
         when(ctx.pathParam("id")).thenReturn("1");
-        when(personDAO.getMovieByPersonId(1)).thenThrow(new SQLException());
+        when(personDAO.getMoviesByPersonId(1)).thenThrow(new SQLException());
         personController.getMoviesStarringPerson(ctx);
         verify(ctx).status(500);
     }
@@ -164,7 +164,7 @@ class PersonControllerTest {
     @Test
     void testThrows404ExceptionWhenMoviesNotFound() throws SQLException {
         when(ctx.pathParam("id")).thenReturn("1");
-        when(personDAO.getMovieByPersonId(1)).thenReturn(new ArrayList<>());
+        when(personDAO.getMoviesByPersonId(1)).thenReturn(new ArrayList<>());
         personController.getMoviesStarringPerson(ctx);
         verify(ctx).status(404);
     }

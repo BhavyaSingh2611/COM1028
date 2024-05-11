@@ -111,7 +111,7 @@ class PersonDAOTest {
     @Test
     void testGetMoviesStarringPerson() {
         try {
-            List<Movie> movies = personDAO.getMovieByPersonId(4);
+            List<Movie> movies = personDAO.getMoviesByPersonId(4);
             assertEquals(2, movies.size());
         } catch (Exception e) {
             fail("SQLException was thrown.");
@@ -125,7 +125,7 @@ class PersonDAOTest {
     @Test
     void testGetMoviesStarringPersonWithInvalidId() {
         try {
-            List<Movie> movies = personDAO.getMovieByPersonId(1000);
+            List<Movie> movies = personDAO.getMoviesByPersonId(1000);
             assertTrue(movies.isEmpty());
         } catch (Exception e) {
             fail("SQLException was thrown.");

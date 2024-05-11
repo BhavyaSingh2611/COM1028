@@ -96,14 +96,16 @@ public class MovieDAO {
      */
     public List<MovieRating> getRatingsByYear(int limit, int votes, int year) throws SQLException {
         List<MovieRating> movies = new ArrayList<>(limit);
-        PreparedStatement ps = connection.prepareStatement("SELECT * FROM movies, ratings WHERE movies.year = ? AND movies.id = ratings.movie_id AND ratings.votes > ? ORDER BY ratings.rating DESC LIMIT ?");
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM movies, ratings WHERE movies.year = ?" +
+                " AND movies.id = ratings.movie_id AND ratings.votes > ? ORDER BY ratings.rating DESC LIMIT ?");
         ps.setInt(1, year);
         ps.setInt(2, votes);
         ps.setInt(3, limit);
 
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            movies.add(new MovieRating(rs.getInt("id"), rs.getString("title"), rs.getInt("year"), rs.getDouble("rating"), rs.getInt("votes")));
+            movies.add(new MovieRating(rs.getInt("id"), rs.getString("title"),
+                    rs.getInt("year"), rs.getDouble("rating"), rs.getInt("votes")));
         }
         return movies;
     }
