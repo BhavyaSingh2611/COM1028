@@ -120,13 +120,13 @@ class PersonDAOTest {
     }
 
     /**
-     * Tests the getMovieById method with an invalid id. Null should be returned.
+     * Tests the getMovieById method with an invalid id. Empty list should be returned.
      */
     @Test
     void testGetMoviesStarringPersonWithInvalidId() {
         try {
             List<Movie> movies = personDAO.getMovieByPersonId(1000);
-            assertNull(movies);
+            assertTrue(movies.isEmpty());
         } catch (Exception e) {
             fail("SQLException was thrown.");
             e.printStackTrace();
